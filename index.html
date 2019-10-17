@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width initial-scale=1">
+		<meta name="description" content="Project that calculates the highest winning Clash Royale cards">
+		<title>Clash Royale - Top Tier Cards</title>
+		<link rel="stylesheet" type="text/css" href="css/reset.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+	<body>
+
+		<header>
+			<h1 class="app-title"><img src="./img/logo.png" alt="Clash Royale logo"><span class="app-subtitle">Top Tier Winning Cards</span></h1>
+		</header>
+
+		<main>
+
+			<section class="description-wrapper">
+				<p class="app-description">This application determines the highest win percentage of specific cards used by the top players in their last 25 battles.</p>
+			</section>
+
+			<section class="get-data-wrapper">
+			   <div class="couche1" id="blue1">    	
+			    	<div class="couche2" id="blue2">
+			    		<div class="couche23" id="blue23"> 	
+				    		<div class="couche3" id="blue3">
+				    			<div class="couche4" id="blue4">
+				    				<span class="battle" id="battle_blue">Get Data</span>
+				    				<div class="couche5" id="blue5"></div>
+				    			</div>
+				    		</div>
+						</div>
+			    	</div>
+			    </div>
+			</section>
+
+			<section class="app-status-wrapper">
+				<form id="royale-api-filter">
+					<p class="status-message">Info about query status</p>
+					<p class="progress-indicator"></p>
+					<div class="meter animate">
+					  <span style="width: 3%" class="red"><span></span></span>
+					</div>
+					<p class="current-battle-data">Info about displayed data</p>
+					<p class="total-battle-data">Info about total data collected</p>
+					<input type="button" id="refresh-data-btn" name="refresh-data-button" value="Refresh Statistics">			
+				</form>
+			</section>
+
+			<section class="results-wrapper">
+				<div id="clash-cards">
+
+				</div>
+			</section>
+
+		</main>
+
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="js/script.js"></script>
+	</body>
+</html>

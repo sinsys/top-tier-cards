@@ -1,0 +1,310 @@
+@font-face {
+  font-family: "scmagic";
+  src: url("../fonts/scmagic.ttf");
+}
+
+html, body {
+	border: 0;
+	margin: 0;
+  color: #FEFEFE;
+}
+
+header {
+	background: #488bf4;
+  background: rgba(72,139,244,0.5);
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+}
+
+body {
+  background-image: url("../img/bg.jpg");
+  background-repeat: repeat;
+  font-family: "scmagic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+p {
+  padding: 0.25rem;
+}
+.app-title {
+  padding: 0.5rem;
+  font-size: 2rem;
+  color: #EFEFEF;
+  text-align: center;
+}
+.app-subtitle {
+  font-size: 1.25rem;
+  display: block;
+  color: #fefefe;
+}
+.app-description {
+  color: #CCC;
+  padding: 1rem;
+  background: rgba(1,1,1,0.2);
+}
+.button-wrapper {
+  width: 100%;
+}
+.start-query {
+  padding: 1rem 2rem;
+  margin: 0 auto;
+  display: block;
+}
+.app-status-wrapper {
+  display: none;
+}
+#clash-cards {
+	display: flex;
+	max-width: 960px;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	background: rgba(0,0,0,0.2);
+}
+.card {
+	display: flex;
+	flex-basis: 12.5%;
+	flex-direction: column;
+}
+.card img {
+	max-width: 64px;
+}
+
+.meter { 
+	height: 20px;  /* Can be anything */
+	position: relative;
+	background: #555;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	padding: 10px;
+	box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+}
+
+.meter > span {
+  display: block;
+  height: 100%;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: rgb(43,194,83);
+  background-image: linear-gradient(
+    center bottom,
+    rgb(43,194,83) 37%,
+    rgb(84,240,84) 69%
+  );
+  box-shadow: 
+    inset 0 2px 9px  rgba(255,255,255,0.3),
+    inset 0 -2px 6px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.orange > span {
+  background-color: #f1a165;
+  background-image: linear-gradient(to bottom, #f1a165, #f36d0a);
+}
+
+.red > span {
+  background-color: #f0a3a3;
+  background-image: linear-gradient(to bottom, #f0a3a3, #f42323);
+}
+
+.meter > span:after, .animate > span > span {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background-image: linear-gradient(
+    -45deg, 
+    rgba(255, 255, 255, .2) 25%, 
+    transparent 25%, 
+    transparent 50%, 
+    rgba(255, 255, 255, .2) 50%, 
+    rgba(255, 255, 255, .2) 75%, 
+    transparent 75%, 
+    transparent
+  );
+  z-index: 1;
+  background-size: 50px 50px;
+  animation: move 2s linear infinite;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  overflow: hidden;
+}
+
+.animate > span:after {
+  display: none;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+.meter > span:after, .animate > span > span {
+  animation: move 2s linear infinite;
+}
+
+@keyframes expandWidth {
+   0% { width: 0; }
+   100% { width: auto; }
+}
+
+/*CLASH ROYALE BUTTON STYLING*/
+
+.couche1{
+  position: relative;
+  -webkit-border-radius: 11px;
+  -moz-border-radius: 11px;
+  border-radius: 11px;
+  width:300px;
+  height:100px;
+  background:black;
+  -webkit-box-shadow: 0px 11px 2px #301C09;
+    -moz-box-shadow: 0px 11px 2px #301C09;
+    box-shadow: 0px 11px 2px #301C09;
+    cursor:pointer;
+    margin : 10px auto;
+
+    
+}
+
+.couche2{
+  position:absolute;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  width:294px;
+  height:94px;
+  margin-top:3px;
+  margin-left:3px;
+  background:#FDA80D;
+  -webkit-box-shadow: 0px 9px 0px #AF6B06;
+    -moz-box-shadow: 0px 9px 0px #AF6B06;
+    box-shadow: 0px 9px 0px #AF6B06;
+
+}
+
+.couche23{
+  position:absolute;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  width:292px;
+  height:80px;
+  margin-top:5px;
+  margin-left:1px;
+    -webkit-box-shadow: 0px -4px 5px 0px #FFDC33;
+    -moz-box-shadow:    0px -4px 5px 0px #FFDC33;
+  box-shadow:         0px -4px 5px 0px #FFDC33;
+
+
+}
+
+.couche3{
+  position:absolute;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  margin-top:0px;
+  margin-left:5px;
+  width:281px;
+  height:82px;
+  background:rgba(255,187,42,1);
+  -webkit-box-shadow: 0px 4px 3px 0px #FE8906;
+  -moz-box-shadow:    0px 4px 3px 0px #FE8906;
+  box-shadow:         0px 4px 3px 0px #FE8906;
+
+}
+
+.couche4{
+  position:absolute;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  margin-top:5px;
+  margin-left:3px;
+  width:275px;
+  height:38px;
+  background:#FFD053;
+  
+}
+
+.couche5{
+  position:absolute;
+  -webkit-border-radius: 45%;
+  -moz-border-radius: 45%;
+  border-radius: 45%;
+  margin-top:0px;
+  margin-left:267px;
+  width:7px;
+  height:9px;
+  background:#FFF1B6;
+
+}
+
+.battle{
+  position:absolute;
+  font-style: normal;
+  font-weight: 400;
+  color:#FFFFCC;
+  font-size:1.7em;
+  margin-top:1.5rem; 
+  margin-left:68px;
+  text-shadow: -1px 0 1px #582E00, 
+              1px 0 1px #582E00,
+              0 -1px 1px #582E00,
+              0 4px 1px #582E00,
+              -2px 4px 1px #582E00,
+              2px 3px 2px #582E00;
+}
+
+/*blue*/
+
+#blue2{
+  background:#2199FF;
+  -webkit-box-shadow: 0px 9px 0px #004FA5;
+    -moz-box-shadow: 0px 9px 0px #004FA5;
+    box-shadow: 0px 9px 0px #004FA5;
+
+}
+
+#blue23{
+  -webkit-box-shadow: 0px -4px 5px 0px #3EBAFF;
+    -moz-box-shadow:    0px -4px 5px 0px #3EBAFF;
+  box-shadow:         0px -4px 5px 0px #3EBAFF;
+  
+}
+
+#blue3{
+  background:#4CADFF;
+  -webkit-box-shadow: 0px 4px 3px 0px #2181FC;
+  -moz-box-shadow:    0px 4px 3px 0px #2181FC;
+  box-shadow:         0px 4px 3px 0px #2181FC;
+    
+}
+
+#blue4{
+  background:#67BCFF;
+  
+}
+
+#blue5{
+  background:#D9FFFF;
+  
+  
+}
+
+#battle_blue{
+  text-shadow: -1px 0 1px #002F83, 
+              1px 0 1px #002F83,
+              0 -1px 1px #002F83,
+              0 4px 1px #002F83,
+              -2px 4px 1px #002F83,
+              2px 3px 2px #002F83;
+    color:#FEFEFE;
+}
