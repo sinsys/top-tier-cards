@@ -1,6 +1,6 @@
 function queryPlayers() {
 	console.log("Querying players...");
-	return fetch("http://arcane-ocean-08754.herokuapp.com")
+	return fetch("https://arcane-ocean-08754.herokuapp.com")
 		.then(res => { 
 			if(res.ok){ return res.json() }
 			else { // insert 3 attempt call here then throw catch
@@ -15,7 +15,7 @@ function queryPlayers() {
 
 function queryPlayerData(player){
 	console.log("Querying player " + player + "...");
-	return fetch("http://arcane-ocean-08754.herokuapp.com/battles/" + player)
+	return fetch("https://arcane-ocean-08754.herokuapp.com/battles/" + player)
 		.then(res => {
 			if(res.ok){ 
 
