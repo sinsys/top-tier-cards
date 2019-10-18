@@ -36,7 +36,7 @@ function calculateNewData(data){
 	data.forEach(battle => {
 		if(battle.mode.name == "Ladder"){
 			battles++;
-			DECKS.push(battle.team[0].deck);
+			DECKS.push(makeDeckStorage(battle.team[0].deckLink));
 			battle.team[0].deck.forEach(card => {
 				!(card.id in CARDS) && (CARDS[card.id] = { 
 					useRate: 0,
@@ -57,6 +57,8 @@ function calculateNewData(data){
 	let cardsArr = convertToArray(CARDS);
 	sortArr(cardsArr, "winPerc");
 	console.log(cardsArr);
+
+	console.log(removeDeckDupes(DECKS));
 	$renderCards(cardsArr);
 }
 
@@ -109,8 +111,21 @@ function setPlayerArr(players, base){
 	})
 	return playerArr;
 }
+function makeDeckStorage(deck){
+	return deck.split("deck=")[1].split(";").sort();
+}
+function removeDeckDupes(data){
+	let tempArr = [];
 
+	let compare = data.filter(function (i) {
+	    if (tempArr.indexOf(i.toString()) < 0) {
+	        tempArr.push(i.toString());
+	        return i;
+	    }
+	});
 
+	return tempArr;
+}
 function $refreshData(data, total){
 	calculateNewData(data);
 	$('.current-battle-data').text(`Displaying ${total} battles. More battles will be calculated in the background. You can use the refresh button at any time to refresh the page with updated info.`);
@@ -120,16 +135,19 @@ function queryData(){
 	$('.status-message').text("Querying top players...");
 	queryPlayers().then(data => {
 		let allBattles = []; 
+		let allDecks = [];
 		let max = 30;
 		let completedQueries = 0;
 		let current = 0;
 		let initRender = false;
 	    let playerQueryLimiting = setInterval(function () {
 	    	if(current < max){
-	    		$('.status-message').text("Querying individual players...");
+	    		$('.status-message').text(`Querying player #${data[current].tag}...`);
 		        queryPlayerData(data[current].tag)
 		        	.then(battleData => {
-		        		battleData.forEach(battle => allBattles.push(battle))
+		        		battleData.forEach(battle => {
+		        			allBattles.push(battle)
+		        		})
 		        		$('.total-battle-data').text('Total data collected: ' + allBattles.length);
 		        		completedQueries++;
 		        		updateProgressBar(completedQueries*10);
@@ -147,6 +165,7 @@ function queryData(){
 	    }, 1000);
 	    $('#refresh-data-btn').on('click', function(){
 	    	$refreshData(allBattles, allBattles.length);
+	    	console.log(allDecks);
 	    })
 	})
 }
