@@ -1,7 +1,7 @@
 // Queries the top 1000 players in the game (within last 10 minutes)
 function queryPlayers() {
 	// Admin log to ensure function is called
-	console.log("Querying players...");
+	console.log("Querying top players...");
 	return fetch("https://arcane-ocean-08754.herokuapp.com")
 		.then(res => { 
 			if(res.ok){ return res.json() }
@@ -18,7 +18,7 @@ function queryPlayers() {
 // Queries an individual player's last 25 battles
 function queryPlayerData(player){
 	// Admin log to ensure function is called
-	console.log("Querying player " + player + "...");
+	// console.log("Querying player " + player + "...");
 	return fetch("https://arcane-ocean-08754.herokuapp.com/battles/" + player)
 		.then(res => {
 			if(res.ok){ return res.json() }
@@ -74,9 +74,10 @@ function calculateNewData(data){
 	sortArr(cardsArr, "winPerc");
 	// Remove duplicates and sort the decks that won
 	removeDeckDupes(DECKS);
-	console.log(DECKS);
 	// Display the cards to the DOM
 	$renderCards(cardsArr);
+	// Returning data to a semi global object for deck lookups
+	console.log({DECKS, CARDS});
 }
 
 // Converting an object that used the card ID as keys to an array for sorting purposes
@@ -117,7 +118,7 @@ function $renderCards(cards){
 			// Basic DOM object we create and appending info to it
 			let $card = $('<div class="card">');
 			$card.append(`<h4>${card.name}</h4>`);
-			$card.append(`<img src="${card.cardImg}" alt="${card.name}">`);
+			$card.append(`<img class="app-card" data-id="${card.id}" src="${card.cardImg}" alt="${card.name}">`);
 			$card.append(`<p class="percent">${card.winPerc}%</p>`);
 			$card.append(`<p class="use-rate">${card.useRate}%</p>`);
 			// Render the card to the DOM
@@ -191,6 +192,7 @@ function queryData(){
 		   the site */
 	    let playerQueryLimiting = setInterval(function () {
 	    	// If our current player query is less than the max we want to call
+	    	console.log("Querying individual players...");
 	    	if(current < max){
 	    		// Update the status to let the user know queries are still occuring... even if no data is coming back
 	    		$('.status-message').text(`Querying player #${data[current].tag}...`);
@@ -200,6 +202,7 @@ function queryData(){
 		        		// Add all returned battles from a single player query to our allBattles
 		        		battleData.forEach(battle => {
 		        			allBattles.push(battle)
+		        			allDecks.push(battle.team[0].deckLink)
 		        		})
 		        		// Update UI to tell user how much data is collected
 		        		$('.total-battle-data').text('Total data collected: ' + allBattles.length);
@@ -215,7 +218,10 @@ function queryData(){
 				        	// We render the data
 				        	$refreshData(allBattles, allBattles.length);
 				        }
-		        })
+				        $('#clash-cards').on('click', '.app-card', function(){
+	    					console.log(battleData);
+	    				});
+	    	})
 	    	} else {
 	    		// We sent every query we wanted to. Alert the user
 	    		$('.status-message').text("All queries sent");
@@ -228,11 +234,14 @@ function queryData(){
 	    // We have an event handler to allow a button click to utilize our allBattles and allDecks data
 	    $('#refresh-data-btn').on('click', function(){
 	    	$refreshData(allBattles, allBattles.length);
-	    	console.log(allDecks);
 	    })
+
 	})
 }
 
+function findDecks(card){
+
+}
 // This controls the color, size, and progression of the progress bar
 function updateProgressBar(percent){
 	if(percent < 40) {
@@ -251,22 +260,25 @@ function updateProgressBar(percent){
 		});			
 	}
 }
-
+function animateProgressBar(){
+	$(".meter > span").each(function() {
+	  $(this)
+	    .data("origWidth", $(this).width())
+	    .width(0)
+	    .animate({
+	      width: $(this).data("origWidth") // or + "%" if fluid
+	    }, 1200);
+	});	
+}
 // DOM is ready
 // Need to translate this into other functions for readability
 $(function(){
+	let STORE = {};
 	$('#blue2').on('click', function(){
 		$('.get-data-wrapper').fadeOut(500, function(){
-			$('.app-status-wrapper').fadeIn(500);
 			queryData();
-			$(".meter > span").each(function() {
-			  $(this)
-			    .data("origWidth", $(this).width())
-			    .width(0)
-			    .animate({
-			      width: $(this).data("origWidth") // or + "%" if fluid
-			    }, 1200);
-			});	
+			$('.app-status-wrapper').fadeIn(500);
+
 		})
 	})
 });
