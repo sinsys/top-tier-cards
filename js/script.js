@@ -154,6 +154,7 @@ function calculateNewData(data){
 	DECKS = helpers.removeDeckDupes(DECKS);
 	// Display the cards to the DOM and store the top cards
 	topCards = $renderCards(cardsArr);
+
 	// Returning data to a semi global object for deck lookups
 
 	return {
@@ -189,7 +190,6 @@ function $renderCards(cards){
 			// Remove one from the counter (if 0, stop rendering)
 			counter--;
 		}
-
 	})
 	return topCards;
 }
@@ -217,6 +217,25 @@ function $updateProgressBar(percent){
 		  $(this).addClass('green').css('width', '100%');
 		});			
 	}
+}
+
+function $renderDecks(decks, cardData){
+	let counter = 10;
+	let $allDecksWrapper = $('<div>').addClass('all-decks-wrapper');
+	decks.forEach(deck => {
+		if(counter > 0){
+			let $deckWrapper = $('<div>').addClass('deck-wrapper');
+			deck.forEach(card => {
+				$deckWrapper.append(`<img class="card-thumb" src="${cardData[card].cardImg}">`);
+			})
+			let baseUrl = "https://link.clashroyale.com/deck/en?deck=";
+			$deckWrapper.append(`<a href="${baseUrl + deck.join(";")}">Deck Link</a>`);
+			$allDecksWrapper.append($deckWrapper);
+			counter--;	
+		}
+
+	})
+	return $allDecksWrapper;
 }
 
 // Animates initial load of progress bar
@@ -249,7 +268,7 @@ function queryData(){
 		let allDecks = [];
 		let calcData = {};
 		// This can be changed from 1-1000. Ideal is 200 for production
-		let max = 20;
+		let max = 200;
 		// This tracks how many promises are returned
 		let completedQueries = 0;
 		// This is used as an index for the current call
@@ -306,19 +325,11 @@ function queryData(){
 	    	calcData = $refreshData(allBattles, allBattles.length);
 	    })
 	    $('#clash-cards').on('click', '.app-card', function(){
-	    	// console.log(calcData.topCards);
-	    	// console.log(calcData.decks);
 	    	let validCards = calcData.topCards;
 	    	let validDecks = calcData.decks;
-	    	// let sortedDecks = helpers.sortOnCount(calcData.topCards, helpers.findDecks($(this).data('id'), calcData.decks))
 	    	let sortedDecks = helpers.sortOnCount(validDecks, validCards);
 	    	let deckLinks = helpers.findDecks($(this).data('id'), sortedDecks);
-	    	deckLinks.forEach(deck => {
-	    		let cardsArr = deck.join(";");
-	    		let baseUrl = "https://link.clashroyale.com/deck/en?deck="
-	    		let cardUrl = baseUrl+=cardsArr;
-	    		$('#deck-links').append(`<a href="${cardUrl}">Deck Link</a>`);
-	    	})
+	    	$('#deck-links').empty().append($renderDecks(deckLinks, calcData.cards));
 		});
 
 	})
