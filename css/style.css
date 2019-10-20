@@ -66,7 +66,9 @@ p {
 .card img {
 	max-width: 64px;
 }
-
+.card-thumb {
+  max-width: 42px;
+}
 .meter { 
 	height: 20px;  /* Can be anything */
 	position: relative;
