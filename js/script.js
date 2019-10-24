@@ -1,7 +1,9 @@
 /************* GLOBAL STORED INFO ***************/
 
 const STORE = {
-	apiUrl: "https://arcane-ocean-08754.herokuapp.com/"
+	apiUrl: "https://arcane-ocean-08754.herokuapp.com/",
+	totalPlayers: 20,
+	displayedCards: 16
 }
 
 
@@ -68,17 +70,21 @@ const helpers = {
 	}
 }
 
-// Sorting array based on common values
-// console.log(helpers.sortOnCount(data, arr));
-
-
 /************* API CALLS AND EXTERNAL QUERIES ***************/
+// This is a retry function to avoid stalling out when server errors happen
+// URL is the fetch URL and n is the number of retries that we want to do before failing it
+function fetch_retry(url, n) {
+    return fetch(url).catch(function(error) {
+        if (n === 1) throw error;
+        return fetch_retry(url, n - 1);
+    });
+}
 
 // Queries the top 1000 players in the game (within last 10 minutes)
 function queryPlayers() {
 	// Admin log to ensure function is called
 	console.log("Querying top players...");
-	return fetch(STORE.apiUrl)
+	return fetch_retry(STORE.apiUrl + "players", 3)
 		.then(res => { 
 			if(res.ok){ return res.json() }
 			else { // insert 3 attempt call here then throw catch
@@ -94,10 +100,13 @@ function queryPlayers() {
 // Queries an individual player's last 25 battles
 function queryPlayerData(player){
 	// Admin log to ensure function is called
-	// console.log("Querying player " + player + "...");
-	return fetch(STORE.apiUrl + "battles/" + player)
+	console.log("Querying player " + player + "...");
+	return fetch_retry(STORE.apiUrl + "battles/" + player, 3)
 		.then(res => {
-			if(res.ok){ return res.json() }
+			if(res.ok){ 
+				console.log(`Player ${player} data returned`);
+				return res.json() 
+			}
 			else { // insert 3 attempt call here then throw catch}
 			}
 		})
@@ -170,7 +179,7 @@ function calculateNewData(data){
 // Displays the card icons
 function $renderCards(cards){
 	// Number of top cards to display
-	let counter = 16;
+	let counter = STORE.displayedCards;
 	let topCards = [];
 	// Empty the container in case we refresh
 	$('#clash-cards').empty();
@@ -180,11 +189,11 @@ function $renderCards(cards){
 		if(counter > 0){
 			topCards.push(card.id);
 			// Basic DOM object we create and appending info to it
-			let $card = $('<div class="card">');
-			$card.append(`<h4>${card.name}</h4>`);
-			$card.append(`<img class="app-card" data-id="${card.id}" src="${card.cardImg}" alt="${card.name}">`);
-			$card.append(`<p class="percent">${card.winPerc}%</p>`);
-			$card.append(`<p class="use-rate">${card.useRate}%</p>`);
+			let $card = $(`<div class="card" data-id="${card.id}">`);
+			$card.append(`<p class="name">${card.name}</p>`);
+			$card.append(`<img class="app-card" src="${card.cardImg}" alt="${card.name}">`);
+			$card.append(`<p class="percent">Win-Rate: <span class="perc">${card.winPerc}%</span></p>`);
+			$card.append(`<p class="use-rate">Use-Rate: <span class="usage">${card.useRate}%</span></p>`);
 			// Render the card to the DOM
 			$('#clash-cards').append($card);
 			// Remove one from the counter (if 0, stop rendering)
@@ -202,26 +211,25 @@ function $refreshData(data, total){
 
 // This controls the color, size, and progression of the progress bar
 function $updateProgressBar(percent){
-	if(percent < 40) {
-		$(".meter > span").each(function() {
-		  $(this).css('width', percent + "%");
-		  $(this).removeClass().addClass('orange');
+	$(".meter > span").each(function() {
+			$(this).css('width', percent + "%");
+			$(this).removeClass().addClass('orange');
 		});				
-	} else if (percent < 80){
+	if (percent > 90){
 		$(".meter > span").each(function() {
-		  $(this).css('width', percent + "%");
-		  $(this).removeClass().addClass('green');
+			$(this).css('width', percent + "%");
+			$(this).removeClass().addClass('green');
 		});				
 	} else if (percent >= 100){
 		$(".meter > span").each(function() {
-		  $(this).addClass('green').css('width', '100%');
+		  	$(this).addClass('green').css('width', '100%');
 		});			
 	}
 }
 
 function $renderDecks(decks, cardData){
-	let counter = 10;
-	let $allDecksWrapper = $('<div>').addClass('all-decks-wrapper');
+	let counter = 5;
+	let $allDecksWrapper = $('<div>');
 	decks.forEach(deck => {
 		if(counter > 0){
 			let $deckWrapper = $('<div>').addClass('deck-wrapper');
@@ -250,11 +258,6 @@ function $animateProgressBar(){
 	});	
 }
 
-
-
-
-
-
 // CORE FUNCTION OF THIS APP
 /* We will be calling almost all of our functions in this function
    This will only be called once and should execute everything we want to accomplish */
@@ -268,7 +271,7 @@ function queryData(){
 		let allDecks = [];
 		let calcData = {};
 		// This can be changed from 1-1000. Ideal is 200 for production
-		let max = 200;
+		let max = STORE.totalPlayers;
 		// This tracks how many promises are returned
 		let completedQueries = 0;
 		// This is used as an index for the current call
@@ -283,7 +286,6 @@ function queryData(){
 		   the site */
 	    let playerQueryLimiting = setInterval(function () {
 	    	// If our current player query is less than the max we want to call
-	    	console.log("Querying individual players...");
 	    	if(current < max - 1){
 	    		// Update the status to let the user know queries are still occuring... even if no data is coming back
 	    		$('.status-message').text(`Querying player #${data[current].tag}...`);
@@ -321,27 +323,29 @@ function queryData(){
 	        current++;
 	    }, 1000);
 	    // We have an event handler to allow a button click to utilize our allBattles and allDecks data
-	    $('#refresh-data-btn').on('click', function(){
+	    $('#refresh-btn').on('click', function(){
 	    	calcData = $refreshData(allBattles, allBattles.length);
 	    })
-	    $('#clash-cards').on('click', '.app-card', function(){
+
+	    $('#clash-cards').on('click', '.card', function(){
+	    	$('.card').addClass('grayscale');
+	    	let cardId =  $(this).data('id');
 	    	let validCards = calcData.topCards;
 	    	let validDecks = calcData.decks;
 	    	let sortedDecks = helpers.sortOnCount(validDecks, validCards);
-	    	let deckLinks = helpers.findDecks($(this).data('id'), sortedDecks);
+	    	let deckLinks = helpers.findDecks(cardId, sortedDecks);
 	    	$('#deck-links').empty().append($renderDecks(deckLinks, calcData.cards));
 		});
 
 	})
 }
 
-
 // DOM is ready
 // Need to translate this into other functions for readability
 $(function(){
 	let STORE = {};
 
-	$('#blue2').on('click', function(){
+	$('#query-data-btn').on('click', function(){
 		$('.get-data-wrapper').fadeOut(500, function(){
 			queryData();
 			$('.app-status-wrapper').fadeIn(500);

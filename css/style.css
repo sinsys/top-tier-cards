@@ -1,3 +1,5 @@
+/********** GLOBAL / ELEMENT TREATMENT **********/
+
 @font-face {
   font-family: "scmagic";
   src: url("../fonts/scmagic.ttf");
@@ -7,6 +9,7 @@ html, body {
 	border: 0;
 	margin: 0;
   color: #FEFEFE;
+  box-sizing: border-box;
 }
 
 header {
@@ -20,64 +23,106 @@ body {
   background-repeat: repeat;
   font-family: "scmagic", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+
 p {
   padding: 0.25rem;
 }
+
+/********** CLASS SPECIFIC MODS **********/
+
+/* Header */
+
 .app-title {
   padding: 0.5rem;
   font-size: 2rem;
   color: #EFEFEF;
   text-align: center;
 }
+
 .app-subtitle {
   font-size: 1.25rem;
   display: block;
   color: #fefefe;
 }
+
+
+/* Progress */
+
 .app-description {
   color: #CCC;
   padding: 1rem;
   background: rgba(1,1,1,0.2);
 }
-.button-wrapper {
-  width: 100%;
-}
-.start-query {
-  padding: 1rem 2rem;
-  margin: 0 auto;
-  display: block;
-}
+
 .app-status-wrapper {
   display: none;
 }
-#clash-cards {
-	display: flex;
-	max-width: 960px;
-	align-items: center;
-	justify-content: center;
-	flex-wrap: wrap;
-	background: rgba(0,0,0,0.2);
-}
+
+
+/* Displayed Info */
+
 .card {
-	display: flex;
-	flex-basis: 12.5%;
-	flex-direction: column;
+  display: flex;
+  flex-basis: 40%;
+  margin: 2%;
+  padding: 3px;
+  flex-direction: column;
+  background: #004FA5;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 1rem;
+  filter: grayscale(25%);
+  transition: background 0.3s, filter 0.3s;
+  border: 3px solid #333;
+  box-shadow: 3px 3px 5px rgba(0,0,0,0.8);
+  cursor: pointer;
 }
+
+.card.grayscale {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%);
+}
+
+.name, .percent, .use-rate {
+  text-align: center;
+}
+
+.perc, .usage {
+  padding: 5px;
+  display: block;
+  font-size: 1.2rem;
+  color: #ffab18;
+}
+
+.card:hover, .card.active {
+  transform: scale(1.1);
+  filter: grayscale(0%);
+  border: 2px solid #EEE;
+}
+
+.card.active {
+  background: rgba(0,0,100,0.5);
+}
+
 .card img {
-	max-width: 64px;
+  max-width: 64px;
 }
+
 .card-thumb {
   max-width: 42px;
 }
+
+/* Progress / Meter */
+
 .meter { 
-	height: 20px;  /* Can be anything */
-	position: relative;
-	background: rgba(0,0,0,0.25);
-	-moz-border-radius: 25px;
-	-webkit-border-radius: 25px;
-	border-radius: 25px;
-	padding: 10px;
-	box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+  height: 20px;
+  position: relative;
+  background: rgba(0,0,0,0.25);
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  border-radius: 25px;
+  padding: 10px;
+  box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
 }
 
 .meter > span {
@@ -156,7 +201,51 @@ p {
    100% { width: auto; }
 }
 
-/*CLASH ROYALE BUTTON STYLING*/
+
+
+
+/********** LAYOUT CONTAINERS **********/
+
+
+#clash-cards {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+
+
+
+.couche-yellow1{
+  display: block;
+}
+.all-decks-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+
+/********** BUTTON STYLING **********/
+/* Get Data */
+.battle{
+  position:absolute;
+  font-style: normal;
+  font-weight: 400;
+  color:#FFFFCC;
+  font-size:1.7em;
+  margin-top:25px; 
+  margin-left:65px;
+  text-shadow: -1px 0 1px #582E00, 
+              1px 0 1px #582E00,
+              0 -1px 1px #582E00,
+              0 4px 1px #582E00,
+              -2px 4px 1px #582E00,
+              2px 3px 2px #582E00;
+}
 
 .couche1{
   position: relative;
@@ -170,7 +259,7 @@ p {
     -moz-box-shadow: 0px 11px 2px #301C09;
     box-shadow: 0px 11px 2px #301C09;
     cursor:pointer;
-    margin : 10px auto;
+    margin : 80px auto;
 
     
 }
@@ -188,7 +277,6 @@ p {
   -webkit-box-shadow: 0px 9px 0px #AF6B06;
     -moz-box-shadow: 0px 9px 0px #AF6B06;
     box-shadow: 0px 9px 0px #AF6B06;
-
 }
 
 .couche23{
@@ -248,60 +336,8 @@ p {
   background:#FFF1B6;
 
 }
-
-.battle{
-  position:absolute;
-  font-style: normal;
-  font-weight: 400;
-  color:#FFFFCC;
-  font-size:1.7em;
-  margin-top:1.5rem; 
-  margin-left:68px;
-  text-shadow: -1px 0 1px #582E00, 
-              1px 0 1px #582E00,
-              0 -1px 1px #582E00,
-              0 4px 1px #582E00,
-              -2px 4px 1px #582E00,
-              2px 3px 2px #582E00;
-}
-
-/*blue*/
-
-#blue2{
-  background:#2199FF;
-  -webkit-box-shadow: 0px 9px 0px #004FA5;
-    -moz-box-shadow: 0px 9px 0px #004FA5;
-    box-shadow: 0px 9px 0px #004FA5;
-
-}
-
-#blue23{
-  -webkit-box-shadow: 0px -4px 5px 0px #3EBAFF;
-    -moz-box-shadow:    0px -4px 5px 0px #3EBAFF;
-  box-shadow:         0px -4px 5px 0px #3EBAFF;
-  
-}
-
-#blue3{
-  background:#4CADFF;
-  -webkit-box-shadow: 0px 4px 3px 0px #2181FC;
-  -moz-box-shadow:    0px 4px 3px 0px #2181FC;
-  box-shadow:         0px 4px 3px 0px #2181FC;
-    
-}
-
-#blue4{
-  background:#67BCFF;
-  
-}
-
-#blue5{
-  background:#D9FFFF;
-  
-  
-}
-
-#battle_blue{
+/* Refresh stats */
+.battle.blue{
   text-shadow: -1px 0 1px #002F83, 
               1px 0 1px #002F83,
               0 -1px 1px #002F83,
@@ -309,4 +345,70 @@ p {
               -2px 4px 1px #002F83,
               2px 3px 2px #002F83;
     color:#FEFEFE;
+}
+.couche2.blue2{
+  background:#2199FF;
+  -webkit-box-shadow: 0px 9px 0px #004FA5;
+    -moz-box-shadow: 0px 9px 0px #004FA5;
+    box-shadow: 0px 9px 0px #004FA5;
+
+}
+
+.couche23.blue23{
+  -webkit-box-shadow: 0px -4px 5px 0px #3EBAFF;
+    -moz-box-shadow:    0px -4px 5px 0px #3EBAFF;
+  box-shadow:         0px -4px 5px 0px #3EBAFF;
+  
+}
+
+.couche3.blue3{
+  background:#4CADFF;
+  -webkit-box-shadow: 0px 4px 3px 0px #2181FC;
+  -moz-box-shadow:    0px 4px 3px 0px #2181FC;
+  box-shadow:         0px 4px 3px 0px #2181FC;
+    
+}
+
+.couche4.blue4{
+  background:#67BCFF;
+  
+}
+
+.couche5.blue5{
+  background:#D9FFFF;
+  
+  
+}
+
+
+/*MEDIA QUERIES*/
+
+@media only screen and (min-width: 768px) {
+  .card {
+    flex-basis: 25%;
+  }
+}
+@media only screen and (min-width: 1440px) {
+
+  #clash-cards, #deck-links {
+    max-width: 50%;
+  }
+  #deck-links {
+  }
+  .card {
+    flex-basis: 18%;
+  }
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {...}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {...}
+
+
+
+.deck-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
