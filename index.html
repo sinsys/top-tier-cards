@@ -21,41 +21,55 @@
 			</section>
 
 			<section class="get-data-wrapper">
-			   <div class="couche1">    	
-			    	<div class="couche2" id="query-data-btn">
-			    		<div class="couche23"> 	
-				    		<div class="couche3">
-				    			<div class="couche4">
-				    				<span class="battle">Get Data</span>
-				    				<div class="couche"></div>
-				    			</div>
-				    		</div>
+				<div class="get-data-button-wrapper clash-cr-btn-lrg">
+					<div class="couche1 yellow">    	
+						<div class="couche2 yellow" id="query-data-btn">
+							<div class="couche23 yellow"> 	
+					    		<div class="couche3 yellow">
+					    			<div class="couche4 yellow">
+					    				<span class="battle yellow get-data-text">Get Data</span>
+					    				<div class="couche5 yellow"></div>
+					    			</div>
+					    		</div>
+							</div>
 						</div>
-			    	</div>
-			   </div>
+					</div>
+				</div>
 			</section>
 
 			<section class="app-status-wrapper">
 				<form id="royale-api-filter">
-					<p class="status-message">Info about query status</p>
-					<p class="progress-indicator"></p>
-					<div class="meter animate">
-					  <span style="width: 3%" class="red"><span></span></span>
-					</div>
-					<p class="current-battle-data">Info about displayed data</p>
-					<p class="total-battle-data">Info about total data collected</p>
-					<div class="couche1 blue1">
-				    	<div class="couche2 blue2" id="refresh-btn">
-				    		<div class="couche23 blue23">
-					    		<div class="couche3 blue3">
-					    			<div class="couche4 blue4">
-					    				<span class="battle blue">Refresh</span>
-					    				<div class="couche5 blue5"></div>
-					    			</div>
-					    		</div>
-							</div>
-				    	</div>
-				    </div>
+					<section id="progress-wrapper">
+						<p class="status-message"></p>
+						<p class="progress-indicator"></p>
+						<div class="meter animate">
+						  <span style="width: 3%" class="red"><span></span></span>
+						</div>
+					</section>
+					<section class="returned-data-stats">
+						<div class="current-battle-data-wrapper">
+							<div class="refresh-btn-wrapper clash-cr-btn">
+								<div class="couche1 blue">
+							    	<div class="couche2 blue" id="refresh-btn">
+							    		<div class="couche23 blue">
+								    		<div class="couche3 blue">
+								    			<div class="couche4 blue">
+								    				<span class="battle blue refresh-text">Refresh</span>
+								    				<div class="couche5 blue"></div>
+								    			</div>
+								    		</div>
+										</div>
+							    	</div>
+							    </div>
+							</div>							
+						</div>
+						<div class="total-battle-data-wrapper">
+							<p class="extra-info"></p>
+							<p class="current-battle-data">Awaiting data responses...</p>
+							<p class="total-battle-data"></p>
+						</div>
+					</section>
+
 				</form>
 			</section>
 

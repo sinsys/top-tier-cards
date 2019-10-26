@@ -75,6 +75,7 @@ const helpers = {
 // URL is the fetch URL and n is the number of retries that we want to do before failing it
 function fetch_retry(url, n) {
     return fetch(url).catch(function(error) {
+    	console.log("Failed request. Trying again");
         if (n === 1) throw error;
         return fetch_retry(url, n - 1);
     });
@@ -85,6 +86,7 @@ function queryPlayers() {
 	// Admin log to ensure function is called
 	console.log("Querying top players...");
 	return fetch_retry(STORE.apiUrl + "players", 3)
+		
 		.then(res => { 
 			if(res.ok){ return res.json() }
 			else { // insert 3 attempt call here then throw catch
@@ -205,24 +207,23 @@ function $renderCards(cards){
 
 // Update DOM on newest data
 function $refreshData(data, total){
-	$('.current-battle-data').text(`Displaying ${total} battles. More battles will be calculated in the background. You can use the refresh button at any time to refresh the page with updated info.`);
+	$('.current-battle-data').html(`Displaying <span class="current-battle-total">${total} battles</span>`);
+	//  More battles will be calculated in the background. You can use the refresh button at any time to refresh the page with updated info.
 	return calculateNewData(data);
 }
 
 // This controls the color, size, and progression of the progress bar
-function $updateProgressBar(percent){
-	$(".meter > span").each(function() {
+function $updateProgressBar(percent, complete){
+	console.log("Recalculating progress bar - " + percent + "% initial data returned");
+	if (percent < 100) {
+			$(".meter > span").each(function() {
 			$(this).css('width', percent + "%");
 			$(this).removeClass().addClass('orange');
-		});				
-	if (percent > 90){
+		});		
+	}	
+	if (complete){
 		$(".meter > span").each(function() {
-			$(this).css('width', percent + "%");
-			$(this).removeClass().addClass('green');
-		});				
-	} else if (percent >= 100){
-		$(".meter > span").each(function() {
-		  	$(this).addClass('green').css('width', '100%');
+		  	$(this).removeClass().addClass('green').css('width', '100%');
 		});			
 	}
 }
@@ -271,7 +272,8 @@ function queryData(){
 		let allDecks = [];
 		let calcData = {};
 		// This can be changed from 1-1000. Ideal is 200 for production
-		let max = STORE.totalPlayers;
+		// let max = STORE.totalPlayers;
+		let max = 20;
 		// This tracks how many promises are returned
 		let completedQueries = 0;
 		// This is used as an index for the current call
@@ -298,24 +300,32 @@ function queryData(){
 		        			allDecks.push(helpers.makeDeckStorage(battle.team[0].deckLink))
 		        		})
 		        		// Update UI to tell user how much data is collected
-		        		$('.total-battle-data').text('Total data collected: ' + allBattles.length);
+		        		$('.total-battle-data').html(`Available: <span class="total-battle-total">${allBattles.length} battles</span>`);
 		        		// Increase our Promise resolution count
 		        		completedQueries++;
 		        		/* Update the progress bar (we assume 10 battles is enough to display data)
-		        		   Hence we use the completed Promises * 10 to pass in 10% for every promise completed */
-		        		$updateProgressBar(completedQueries*10);
+		        		   Hence we use the completed Promises * 10 to pass in 10% for every promise completed 
+		        		   If data is rendered we don't need to keep calling this */
+		        		if(!initRender && completedQueries < 10){
+		        			$updateProgressBar(completedQueries*10, false);
+		        		}
 		        		// If the results aren't rendered AND the queries ARE 10 or more
 				        if(!initRender && completedQueries >= 10){
+				        	$('.extra-info').html("We will query additional players. Select 'Refresh' at any time to update info.");
 				        	// We set this so this condition never happens until user hits Refresh
 				        	initRender = true;
 				        	// We render the data
 				        	calcData = $refreshData(allBattles, allBattles.length);
+				        	$updateProgressBar(100, true);
+				        }
+				        if(completedQueries == max - 1){
+				        	$('#progress-wrapper').slideUp('fast');
 				        }
 
 	    	})
 	    	} else {
 	    		// We sent every query we wanted to. Alert the user
-	    		$('.status-message').text("All queries sent");
+	    		$('.status-message').text("All queries sent. Awaiting data to return.");
 	    		// We kill the setInterval so it stops querying
 	    		clearTimeout(playerQueryLimiting);
 	    	}
@@ -328,7 +338,8 @@ function queryData(){
 	    })
 
 	    $('#clash-cards').on('click', '.card', function(){
-	    	$('.card').addClass('grayscale');
+	    	$('.card').addClass('grayscale').removeClass('active');
+	    	$(this).addClass('active');
 	    	let cardId =  $(this).data('id');
 	    	let validCards = calcData.topCards;
 	    	let validDecks = calcData.decks;
