@@ -232,14 +232,35 @@ function $renderDecks(decks, cardData){
 	let counter = 5;
 	let $allDecksWrapper = $('<div>');
 	decks.forEach(deck => {
+
 		if(counter > 0){
 			let $deckWrapper = $('<div>').addClass('deck-wrapper');
 			deck.forEach(card => {
 				$deckWrapper.append(`<img class="card-thumb" src="${cardData[card].cardImg}">`);
 			})
 			let baseUrl = "https://link.clashroyale.com/deck/en?deck=";
-			$deckWrapper.append(`<a href="${baseUrl + deck.join(";")}">Deck Link</a>`);
+			
 			$allDecksWrapper.append($deckWrapper);
+			let copyDeckBtn = `
+			<div class="select-new-card">
+				<div class="refresh-btn-wrapper clash-cr-btn-sml">
+					<a href="${baseUrl + deck.join(";")}">
+					<div class="couche1 yellow">
+				    	<div class="couche2 yellow copy-deck">
+				    		<div class="couche23 yellow">
+					    		<div class="couche3 yellow">
+					    			<div class="couche4 yellow">
+					    				<span class="battle yellow copy-deck-link">Copy Deck</span>
+					    				<div class="couche5 yellow"></div>
+					    			</div>
+					    		</div>
+							</div>
+				    	</div>
+				    </div>
+				    </a>
+				</div>							
+			</div>`;
+			$deckWrapper.append(copyDeckBtn);
 			counter--;	
 		}
 

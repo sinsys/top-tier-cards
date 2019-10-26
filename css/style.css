@@ -239,7 +239,6 @@ p {
 .data-stats-wrapper {
   background: rgba(0,0,0,0.2);
   display: block;
-  width: 100%;
   text-align: center;
   padding: 1rem;
   border-radius: 1rem;
@@ -250,14 +249,6 @@ p {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-}
-.current-battle-total {
-  color: #60DA61;
-  font-size: 1.2em;
-}
-.total-battle-total {
-  color: #ffab18;
-  font-size: 1.2em;
 }
 .app-status-wrapper {
   display: none;
@@ -424,14 +415,19 @@ p {
             0.125em 0.1875em 0.125em #002F83;  
 }
 
-
-/* Get Data */
-
-
-/* Refresh stats */
-
-
-
+.current-battle-total {
+  color: #60DA61;
+  font-size: 1.2em;
+}
+.total-battle-total {
+  color: #ffab18;
+  font-size: 1.2em;
+}
+.copy-deck-link {
+  font-size: 1.5em;
+  top: 1em;
+  left: 3em;
+}
 /*MEDIA QUERIES*/
 
 @media only screen and (min-width: 768px) {
