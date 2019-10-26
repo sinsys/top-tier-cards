@@ -119,6 +119,7 @@ p {
 }
 .returned-data-stats {
   display: flex;
+  flex-direction: column;
   background: rgba(0,0,0,0.2);
   align-items: center;
   justify-content: center;
@@ -251,7 +252,9 @@ p {
   color: #ffab18;
   font-size: 1.2em;
 }
-
+.app-status-wrapper {
+  display: block;
+}
 /********** BUTTON STYLING **********/
 /*DEFAULT SIZING*/
 
