@@ -273,7 +273,7 @@ function queryData(){
 		let calcData = {};
 		// This can be changed from 1-1000. Ideal is 200 for production
 		// let max = STORE.totalPlayers;
-		let max = 20;
+		let max = 200;
 		// This tracks how many promises are returned
 		let completedQueries = 0;
 		// This is used as an index for the current call
@@ -319,6 +319,7 @@ function queryData(){
 				        	$updateProgressBar(100, true);
 				        }
 				        if(completedQueries == max - 1){
+				        	$('.status-message').html("All data is collected.");
 				        	$('#progress-wrapper').slideUp('fast');
 				        }
 
