@@ -54,7 +54,7 @@ p {
   background: rgba(1,1,1,0.2);
 }
 
-.app-status-wrapper {
+.app-status-wrapper, .royale-api-filter {
   display: none;
 }
 
@@ -236,7 +236,14 @@ p {
 	justify-content: center;
 	flex-wrap: wrap;
 }
-
+.data-stats-wrapper {
+  background: rgba(0,0,0,0.2);
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 1rem;
+}
 .all-decks-wrapper {
   width: 100%;
   display: flex;
@@ -253,7 +260,7 @@ p {
   font-size: 1.2em;
 }
 .app-status-wrapper {
-  display: block;
+  display: none;
 }
 /********** BUTTON STYLING **********/
 /*DEFAULT SIZING*/
