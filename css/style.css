@@ -4,14 +4,13 @@
   font-family: "scmagic";
   src: url("../fonts/scmagic.ttf");
 }
-
 html, body {
 	border: 0;
 	margin: 0;
   color: #FEFEFE;
   box-sizing: border-box;
+  height: 100%;
 }
-
 header {
 	background: #488bf4;
   background: rgba(72,139,244,0.5);
@@ -239,7 +238,6 @@ p {
 .data-stats-wrapper {
   background: rgba(0,0,0,0.2);
   display: block;
-  width: 100%;
   text-align: center;
   padding: 1rem;
   border-radius: 1rem;
@@ -250,14 +248,6 @@ p {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-}
-.current-battle-total {
-  color: #60DA61;
-  font-size: 1.2em;
-}
-.total-battle-total {
-  color: #ffab18;
-  font-size: 1.2em;
 }
 .app-status-wrapper {
   display: none;
@@ -424,14 +414,19 @@ p {
             0.125em 0.1875em 0.125em #002F83;  
 }
 
-
-/* Get Data */
-
-
-/* Refresh stats */
-
-
-
+.current-battle-total {
+  color: #60DA61;
+  font-size: 1.2em;
+}
+.total-battle-total {
+  color: #ffab18;
+  font-size: 1.2em;
+}
+.copy-deck-link {
+  font-size: 1.5em;
+  top: 1em;
+  left: 3em;
+}
 /*MEDIA QUERIES*/
 
 @media only screen and (min-width: 768px) {
@@ -472,3 +467,7 @@ p {
 }
 
 
+footer {
+  display: fixed;
+  bottom: 0;
+}
