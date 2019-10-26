@@ -4,14 +4,13 @@
   font-family: "scmagic";
   src: url("../fonts/scmagic.ttf");
 }
-
 html, body {
 	border: 0;
 	margin: 0;
   color: #FEFEFE;
   box-sizing: border-box;
+  height: 100%;
 }
-
 header {
 	background: #488bf4;
   background: rgba(72,139,244,0.5);
@@ -468,3 +467,7 @@ p {
 }
 
 
+footer {
+  display: fixed;
+  bottom: 0;
+}
