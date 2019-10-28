@@ -1,7 +1,23 @@
 # Clash Royale - Top Tier Cards
 
+### Link: https://sinsys.github.io/top-tier-cards/
+
+### Summary
+
+This app acquires the top 200 players (within 10 minutes) of the game Clash Royale
+After we acquire their player tags we:
+
+  * Query the top 200 players
+  * Accumulate all possible winning decks
+  * Accumulate all possible cards used by every battle 
+  * Calculate how many times a specific card won
+  * Calculate which decks were used with the most amount of cards displayed
+  * Calculate percentages of win / use rate
+  * User selects a card and results are shown
+  * User is able to click a button to copy a deck using the highest win-rate cards
+
 ### Description
-This application allows users to view the highest average win-rate cards for the top 200 player&apos;s  prior 20 battles. *(ie, calculated via last ~4000 high level matches)*.
+This application allows users to view the highest average win-rate cards for the top 200 player&apos;s  prior 25 battles. *(ie, calculated via last ~4000 high level matches)*.
 
 We will provide a deck links (mobile users with the game can select the link and copy the deck to their game) based on using the most popular decks that contain the most amount of these cards.
 
