@@ -2,7 +2,7 @@
 
 const STORE = {
 	apiUrl: "https://arcane-ocean-08754.herokuapp.com/",
-	totalPlayers: 20,
+	totalPlayers: 200,
 	displayedCards: 16
 }
 
@@ -230,7 +230,8 @@ function $updateProgressBar(percent, complete){
 
 function $renderDecks(decks, cardData){
 	let counter = 5;
-	let $allDecksWrapper = $('<div>');
+	let $allDecksWrapper = $('<div>').addClass('all-decks');
+	$allDecksWrapper.append("<h2 class='decks-heading'>Decks</h2>")
 	decks.forEach(deck => {
 
 		if(counter > 0){
@@ -278,6 +279,44 @@ function $animateProgressBar(){
 	      width: $(this).data("origWidth") // or + "%" if fluid
 	    }, 1200);
 	});	
+}
+
+// Display social icons
+function $socialLinksDOM(){
+	const social = {
+		facebook: "https://www.facebook.com/NicoSiteDev/",
+		email: "nico.full.stack.dev@gmail.com",
+		twitter: "https://twitter.com/NicoFullStack/",
+		github: "https://github.com/sinsys/",
+		linkedIn: "https://linkedin.com/in/nicofullstackdev"
+	}
+	let $socialTemplate = `
+		<div class="contact-icon">
+			<a href="mailto:${social.email}" target="_blank">
+				<i class="fas fa-envelope"></i>
+			</a>
+		</div>
+		<div class="contact-icon">
+			<a href="${social.github}" target="_blank">
+				<i class="fab fa-github"></i>
+			</a>
+		</div>
+		<div class="contact-icon">
+			<a href="${social.facebook}" target="_blank">
+				<i class="fab fa-facebook"></i>
+			</a>
+		</div>
+		<div class="contact-icon">
+			<a href="${social.twitter}" target="_blank">
+				<i class="fab fa-twitter"></i>
+			</a>
+		</div>
+		<div class="contact-icon">
+			<a href="${social.linkedIn}" target="_blank">
+				<i class="fab fa-linkedin"></i>
+			</a>
+		</div>`;
+	$('.contact').append($socialTemplate);
 }
 
 // CORE FUNCTION OF THIS APP
@@ -343,6 +382,7 @@ function queryData(){
 				        	$('.status-message').html("All data is collected.");
 				        	$('#progress-wrapper').slideUp('fast');
 				        }
+				    // calcData = $refreshData(allBattles, allBattles.length);
 
 	    	})
 	    	} else {
@@ -353,7 +393,7 @@ function queryData(){
 	    	}
 	    	// No matter what, the current should always increase if this function keeps getting called.
 	        current++;
-	    }, 1000);
+	    },  1000);
 	    // We have an event handler to allow a button click to utilize our allBattles and allDecks data
 	    $('#refresh-btn').on('click', function(){
 	    	calcData = $refreshData(allBattles, allBattles.length);
@@ -377,7 +417,7 @@ function queryData(){
 // Need to translate this into other functions for readability
 $(function(){
 	let STORE = {};
-
+	$socialLinksDOM()
 	$('#query-data-btn').on('click', function(){
 		$('.get-data-wrapper').fadeOut(500, function(){
 			queryData();
